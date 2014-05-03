@@ -1,0 +1,3 @@
+AgInternedExifLens - id_local, value
+AgInternedExifCameraModel - id_local, value
+AgHarvestedExifMetadata - id_local, image, aperture, cameraModelRef, dateDay, dateMonth, dateYear, flashFired, focalLength, isoSpeedRating, lensRef, shutterSpeed
