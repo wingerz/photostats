@@ -5,8 +5,10 @@ import sqlite3 as sqlite
 import sys
 
 #Added changes for Python 3.5. Example: adding parethesis to the print commands
+#Added: usage()
 
-
+def usage():
+    print("Usage:\n"," -c, --c\tlightroom database file","\n"," -o,--o\toutput file name (json)","\n")
  
 def list_files(conn):
     query = """
@@ -60,6 +62,7 @@ if __name__ == "__main__":
 
     if not options.catalog:
         print("no catalog specified")
+        usage()
         sys.exit(1)
     
     lrcat = options.catalog
