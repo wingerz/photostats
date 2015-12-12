@@ -4,6 +4,12 @@ from optparse import OptionParser
 import sqlite3 as sqlite
 import sys
 
+#Added changes for Python 3.5. Example: adding parethesis to the print commands
+#Added: usage()
+
+def usage():
+    print("Usage:\n"," -c, --c\tlightroom database file","\n"," -o,--o\toutput file name (json)","\n")
+ 
 def list_files(conn):
     query = """
 SELECT folder.pathFromRoot, file.idx_filename, model.value, exif.dateDay, exif.dateMonth, exif.dateYear, exif.aperture, exif.flashFired, exif.focalLength, exif.isoSpeedRating, exif.shutterSpeed, img.fileFormat, img.fileHeight, img.fileWidth, img.orientation, img.rating, lens.value, img.captureTime
@@ -52,10 +58,11 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-c", "--cat", dest="catalog", help="lightroom database file")
     parser.add_option("-o", "--out", dest="outfile", help="outputfile")
-    options, args = parser.parse_args()
+    (options, args) = parser.parse_args()
 
     if not options.catalog:
-        print "no catalog specified"
+        print("no catalog specified")
+        usage()
         sys.exit(1)
     
     lrcat = options.catalog
@@ -65,10 +72,15 @@ if __name__ == "__main__":
         seen_photos[(data['name'], data['date'])].append(data)
 
     file_metadata = []
-    for key, files in seen_photos.iteritems():
+    #for key, files in seen_photos.iteritems():
+
+    for key, files in seen_photos.items() :
         file_metadata.append(files[0])
         if len(files) > 1:
             for file in files:
-                print file['name'] + '\t' +  file['dir']
+                print(file['name'] + '\t' +  file['dir'])
     with open(options.outfile, 'w') as f:
-        print >>f, json.dumps(file_metadata)
+        f.write(json.dumps(file_metadata))
+
+    #Adding some metrics in hte output
+    print("Metrics\n","\ttotal photos:\t",len(seen_photos))
